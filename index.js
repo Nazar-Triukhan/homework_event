@@ -1,3 +1,27 @@
+const itemsRef = document.querySelectorAll('.item');
+
+let index = 0
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowRight') {
+    if (index < itemsRef.length - 1) {
+      index++
+    }
+  }
+
+  if (event.key === 'ArrowLeft') {
+    if (index > 0) {
+      index--
+    }
+  }
+
+  itemsRef.forEach(item => {
+    const update = -index * 300;
+    item.style.transform = `translateX(${update}px)`;
+  });
+});
+
+
 // Завдання 2
 // Напиши скрипт створення і очищення колекції елементів. Користувач вводить кількість
 //  елементів в input і натискає кнопку Створити, після чого рендериться колекція. При 
@@ -12,15 +36,38 @@
 
 
 const inputNumberRef = document.querySelector('input')
-const createBtnRef = document.querySelector('[data-create]');
-const destroyBtnRef = document.querySelector('[data-destroy]');
+const createBtnRef = document.querySelector('[data-action="render"]');
+const destroyBtnRef = document.querySelector('[data-action="destroy"]');
 const boxesRef = document.querySelector('#boxes');
 
-inputNumberRef.addEventListener('input',(event) => {
-    const numberInput = Number(event.target.value)
-    createBoxes(numberInput)
+function createBoxes(amount){
+let size = 30
+
+for(let i = 0;i < amount;i++){
+    const div = document.createElement('div')
+    div.style.height = `${size}px`
+    div.style.width = `${size}px`
+    div.style.backgroundColor = 'red'
+    div.style.margin = '5px'
+
+
+
+    boxesRef.style.display = 'flex'
+    boxesRef.appendChild(div)
+
+    size += 10
+}
+}
+
+createBtnRef.addEventListener('click',() => {
+    createBoxes(inputNumberRef.value)
+    inputNumberRef.value = ''
 })
 
-function createBoxes(amount){
+destroyBtnRef.addEventListener('click',()=> {
+    destroyBoxes()
+})
 
+function destroyBoxes(){
+    boxesRef.innerHTML = ''
 }
